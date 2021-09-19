@@ -1,0 +1,95 @@
+body {
+  font-family: "Montserrat";
+  text-align: left;
+}
+
+h1 {
+  font-family: "Montserrat";
+}
+
+h2 {
+  font-family: "Montserrat";
+}
+
+h3 {
+  font-family: "Montserrat";
+}
+
+h4 {
+  font-family: "Montserrat";
+}
+
+h5 {
+  font-family: "Montserrat";
+}
+
+h6 {
+  font-family: "Montserrat";
+}
+
+p {
+  color: #8f8f8f;
+}
+
+/* Headings */
+.big-heading {
+  font-family: "Montserrat-Black";
+  font-size: 3.5rem;
+  line-height: 1.5;
+}
+
+.section-heading {
+  font-size: 3rem;
+  line-height: 1.5;
+}
+
+.dropdown-toggle::after {
+    content: none;
+}
+
+/* Sections */
+.colored-section {
+  background-color: #ffff;
+  color: #ffff;
+}
+
+.white-section {
+  background-color: #ffff;
+}
+
+/* Navigation Bar */
+.navbar {
+padding: 1%
+
+}
+
+.navbar-brand {
+  font-family: "Ubuntu";
+  font-size: 2.5rem;
+}
+
+/* Dashboard table */
+.header {
+  position: sticky;
+  top:0;
+}
+
+/* Font awesome delete icon */
+.delete {
+  color: grey;
+}
+
+.delete:hover {
+  color: red;
+}
+
+/* Title Section */
+#title {
+  background-color: #ffff;
+  color: #ffff;
+  text-align: left;
+}
+
+#title .container-fluid {
+  padding: 0% 0% 0%;
+}

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  {% if title %}
+  <title>CryptoHub - {{ title }}</title>
+  {% else %}
+  <title>CryptHub</title>
+  {% endif %}
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Ubuntu" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="static/css/styles.css">
+
+  <!-- Font Awesome -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/static/images/favicon.ico">
+</head>
+
+<body>
+
+  <!-- Nav Bar -->
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{{ url_for('dashboard') }}">CryptoHub</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item pt-2">
+            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link pt-3" href="{{ url_for('transactions') }}">Transactions</a>
+          </li>
+          <li class="nav-item pt-2">
+            <a class="nav-link" href="{{ url_for('pivot') }}">Pivot Table</a>
+          </li>
+          <li class="nav-link">
+            <button type="button" class="btn btn-link nav-link btn-sm" data-toggle="modal" data-target="#ModalTradeForm">
+              Add Transaction
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main role="main" class="container">
+    <div class="row">
+      <div class="col-md-12 pt-2">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal fade" id="ModalTradeForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add Transaction</h3>
+        </div>
+
+        <div class="modal-body">
+          <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+              <div class="form-group">
+                <p>For trades between coins (e.g. ETH / BTC), enter the trade in terms of a buy and sell through fiat.</p>
+                {{ form.type(class="form-control form-control-md") }}
+              </div>
+
+              <div class="form-group">
+                <b>{{ form.coin.label(class="form-control-label") }}</b>
+                {{ form.coin(class="form-control form-control-md") }}
+              </div>
+
+              <div class="form-group">
+                <b>{{ form.currency.label(class="form-control-label") }}</b>
+                {{ form.currency(class="form-control form-control-md") }}
+              </div>
+
+              <div class="form-group">
+                <b>{{ form.price.label(class="form-control-label") }}</b>
+                {% if form.price.errors %}
+                {{ form.price(class="form-control form-control-md is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for error in form.price.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ form.price(class="form-control form-control-lg") }}
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                <b>{{ form.quantity.label(class="form-control-label") }}</b>
+                {% if form.quantity.errors %}
+                {{ form.quantity(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for error in form.quantity.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ form.quantity(class="form-control form-control-lg") }}
+                {% endif %}
+              </div>
+
+              <div class="form-group">
+                <b>{{ form.date.label(class="form-control-label") }}</b>
+                {% if form.date.errors %}
+                {{ form.date(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                  {% for error in form.date.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+                </div>
+                {% else %}
+                {{ form.date(class="form-control form-control-lg") }}
+                {% endif %}
+              </div>
+
+              <div class="collapse" id="collapseExample">
+                <div class="form-group">
+                  <b>{{ form.fees.label(class="form-control-label") }}</b>
+                  {% if form.fees.errors %}
+                  {{ form.fees(class="form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in form.fees.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.fees(class="form-control form-control-lg") }}
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  <b>{{ form.notes.label(class="form-control-label") }}</b>
+                  {% if form.notes.errors %}
+                  {{ form.notes(class="form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in form.notes.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.notes(class="form-control form-control-lg") }}
+                  {% endif %}
+                </div>
+              </div>
+
+              <a class="text-info text-decoration-none" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                + Fees & Notes
+                <span class="text-dark">(Optional)</span>
+              </a>
+            </fieldset>
+            <div class="form-group">
+              {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" charset="utf-8"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <script src="{{ url_for('static', filename='js/index.js') }}" charset="utf-8"></script>
+
+</body>
+
+</html>

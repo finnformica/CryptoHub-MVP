@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="heading pt-2">
+  <h1>Pivot Table</h1>
+</div>
+
+<div class="body">
+  <table class="table table-hover table-responsive table-bordered">
+    <thead style="position: sticky;top: 0">
+      <tr class="">
+        <th>Coin</th>
+        <th>Bought</th>
+        <th>Sold</th>
+        <th>Spent</th>
+        <th>Cash</th>
+        <th>Cost</th>
+        <th>Quantity</th>
+        <th>Avg In</th>
+        <th>Avg Out</th>
+        <th>Price</th>
+        <th>Value</th>
+        <th>PnL</th>
+        <th>ROI</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for index, row in pivot.iterrows() %}
+        <tr>
+          <td>{{ index }}</td>
+          <td>{{ '%0.2f' % row['Bought']|float }}</td>
+          <td>{{ '%0.2f' % row['Sold']|float }}</td>
+          <td>{{ '%0.2f' % row['Spent']|float }}</td>
+          <td>{{ '%0.2f' % row['Cash']|float }}</td>
+          <td>{{ '%0.2f' % row['Cost']|float }}</td>
+          <td>{{ '%0.2f' % row['Quantity']|float }}</td>
+          <td>{{ '%0.2f' % row['Avg In']|float }}</td>
+          <td>{{ '%0.2f' % row['Avg Out']|float }}</td>
+          <td>{{ '%0.2f' % row['Price']|float }}</td>
+          <td>{{ '%0.2f' % row['Value']|float }}</td>
+          <td>{{ '%0.2f' % row['PnL']|float }}</td>
+          <td>{{ '%0.2f' % row['ROI']|float }}%</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+</div>
+
+{% endblock content %}
