@@ -10,30 +10,6 @@ from application.models import Transaction
 
 client = Client("", "")
 
-
-# load and format trade data from csv
-def load_data():
-    with open('application/data/finn_trades.csv') as csv_file:
-        csv_reader = csv.reader(csv_file)
-        line_count = 0
-        for row in csv_reader:
-            if line_count == 0:
-                df = pd.DataFrame(columns=''.join(row).split('\t'))
-                line_count += 1
-            else:
-                to_append = ''.join(row).split('\t')
-                series = pd.Series(to_append, index=df.columns)
-                df = df.append(series, ignore_index=True)
-
-    df.drop(columns='Trade', inplace=True)
-    df['Date'] = pd.to_datetime(df['Date'], dayfirst=True)
-    df.columns = ['Coin', 'Type', 'Price', 'Quantity', 'Fees', 'Date']
-    df['Price'] = df['Price'].str.replace('$', '', regex=True)
-    df['Fees'] = df['Fees'].str.replace('$', '', regex=True)
-
-    return df
-
-
 # commit transactions to database
 def load_transactions():
     df = load_data()
