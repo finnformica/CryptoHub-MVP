@@ -18,4 +18,3 @@ from application import routes, utils
 
 db.drop_all()
 db.create_all()
-utils.load_transactions()
